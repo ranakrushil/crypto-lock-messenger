@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secure Messaging App - Hybrid Encryption</title>
+    <link rel="stylesheet" href="RANA11.CSS">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsencrypt/3.3.2/jsencrypt.min.js"></script>
+</head>
+<body>
+<SCript src="rk.js"></SCript>
+<div class="container">
+        <div class="header">
+            <h1>🔐 Secure Messaging App</h1>
+            <p>Hybrid Encryption: AES for Message + RSA for Key Protection</p>
+        </div>
+        
+        <div class="main-content">
+            <!-- Sender Section -->
+            <div class="section">
+                <h2>📤 Sender (Encrypt Message)</h2>
+                
+                <div class="input-group">
+                    <label for="message">Message to Encrypt:</label>
+                    <textarea id="message" placeholder="Enter your secret message here..."></textarea>
+                </div>
+                
+                <button class="btn" onclick="generateKeys()">🔑 Generate RSA Keys</button>
+                <button class="btn btn-success" onclick="encryptMessage()">🔒 Encrypt Message</button>
+                
+                <div id="publicKeyDisplay" class="key-display" style="display: none;">
+                    <strong>Public Key (Share with recipient):</strong>
+                    <div id="publicKey"></div>
+                </div>
+                
+                <div id="encryptedOutput" style="display: none;">
+                    <div class="input-group">
+                        <label>Encrypted Message (AES):</label>
+                        <div id="encryptedMessage" class="output"></div>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label>Encrypted AES Key (RSA):</label>
+                        <div id="encryptedAESKey" class="output"></div>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label>Initialization Vector (IV):</label>
+                        <div id="ivDisplay" class="output"></div>
+                    </div>
+                </div>
+                
+                <div id="senderStatus"></div>
+            </div>
+            
+            <!-- Receiver Section -->
+            <div class="section">
+                <h2>📥 Receiver (Decrypt Message)</h2>
+                
+                <div class="input-group">
+                    <label for="encryptedMessageInput">Encrypted Message:</label>
+                    <textarea id="encryptedMessageInput" placeholder="Paste encrypted message here..."></textarea>
+                </div>
+                
+                <div class="input-group">
+                    <label for="encryptedKeyInput">Encrypted AES Key:</label>
+                    <textarea id="encryptedKeyInput" placeholder="Paste encrypted AES key here..."></textarea>
+                </div>
+                
+                <div class="input-group">
+                    <label for="ivInput">Initialization Vector (IV):</label>
+                    <input type="text" id="ivInput" placeholder="Paste IV here...">
+                </div>
+                
+                <button class="btn btn-success" onclick="decryptMessage()">🔓 Decrypt Message</button>
+                <button class="btn btn-secondary" onclick="autoFillFromSender()">📋 Auto-fill from Sender</button>
+                
+                <div id="decryptedOutput" style="display: none;">
+                    <div class="input-group">
+                        <label>Decrypted Message:</label>
+                        <div id="decryptedMessage" class="output" style="background: #d4edda; color: #155724; font-family: inherit; font-size: 16px;"></div>
+                    </div>
+                </div>
+                
+                <div id="receiverStatus"></div>
+            </div>
+        </div>
+        
+        <!-- Educational Information -->
+        <div class="steps">
+            <h3>🎓 How Hybrid Encryption Works:</h3>
+            <ol>
+                <li><strong>Key Generation:</strong> Generate RSA public/private key pair</li>
+                <li><strong>AES Encryption:</strong> Encrypt the message using AES with a random key</li>
+                <li><strong>RSA Encryption:</strong> Encrypt the AES key using RSA public key</li>
+                <li><strong>Transmission:</strong> Send encrypted message + encrypted AES key + IV</li>
+                <li><strong>RSA Decryption:</strong> Decrypt AES key using RSA private key</li>
+                <li><strong>AES Decryption:</strong> Decrypt message using recovered AES key</li>
+            </ol>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
